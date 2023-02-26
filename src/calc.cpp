@@ -62,7 +62,7 @@ std::size_t operation_length(const Op op)
     return 0;
 }
 
-Op parse_op(std::string_view line, bool &is_folding , std::size_t & i)
+Op parse_op(std::string_view line, bool & is_folding , std::size_t & i)
 {
     const auto rollback = [&i, &line](const std::size_t n) {
         i -= n;
@@ -115,7 +115,7 @@ Op parse_op(std::string_view line, bool &is_folding , std::size_t & i)
             return rollback(2);
         }
     case '(': {
-        if (is_folding == true) { 
+        if (is_folding) { 
             return rollback(1);
         }
         is_folding = true;
@@ -263,7 +263,6 @@ double process_line(double currentValue,
     bool is_folding = false;
     bool error_code = false;
     const auto op = parse_op(line, is_folding, i);
-    //std::cout << is_folding << std::endl;
     double tmp_value = currentValue;
     if (is_folding) {
         int num_of_args = 0;
@@ -272,7 +271,6 @@ double process_line(double currentValue,
             const auto old_i = i;
             error_code = false;
             const auto arg = parse_arg(line, i, is_folding, error_code);
-            //std::cout << i << ' ' << old_i << std::endl;
             if (error_code || old_i == i) {
                 break;
             }
@@ -289,7 +287,6 @@ double process_line(double currentValue,
         else if (i == line.size() && !error_code) {
             return tmp_value;
         }
-        
     }
     else if (arity(op) == 2) {
         i = skip_ws(line, i);
