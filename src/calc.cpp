@@ -62,7 +62,7 @@ std::size_t operation_length(const Op op)
     return 0;
 }
 
-Op parse_op(std::string_view line, bool & is_folding , std::size_t & i)
+Op parse_op(std::string_view line, bool & is_folding, std::size_t & i)
 {
     const auto rollback = [&i, &line](const std::size_t n) {
         i -= n;
@@ -114,6 +114,7 @@ Op parse_op(std::string_view line, bool & is_folding , std::size_t & i)
         default:
             return rollback(2);
         }
+
     case '(': {
         if (is_folding) { 
             return rollback(1);
@@ -216,6 +217,7 @@ double unary(const double current, const Op op)
 }
 
 double binary(const Op op, const double left, const double right, bool & error_code)
+
 {   
     error_code = false;
     switch (op) {
