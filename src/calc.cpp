@@ -69,7 +69,6 @@ Op parse_op(std::string_view line, bool & is_folding, std::size_t & i)
         std::cerr << "Unknown operation " << line << std::endl;
         return Op::ERR;
     };
-    std::size_t start_pos = i;
     switch (line[i++]) {
     case '0':
     case '1':
